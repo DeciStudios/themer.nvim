@@ -9,7 +9,7 @@ A very basic theme selector popup for Neovim. Made this for my personal use, so 
 ### Lazy.nvim
 ```lua
 {
-    'DecisiveOpinion/themer.nvim',
+    'DeciStudios/themer.nvim',
     config = function()
         require('themer').setup({
             themes = {
@@ -25,7 +25,7 @@ A very basic theme selector popup for Neovim. Made this for my personal use, so 
 ### Packer.nvim
 ```lua
 use {
-    'DecisiveOpinion/themer.nvim',
+    'DeciStudios/themer.nvim',
     config = function()
         require('themer').setup({
             themes = {
