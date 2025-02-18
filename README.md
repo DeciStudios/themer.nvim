@@ -39,13 +39,18 @@ use {
 
 ## Usage
 
-After installing, use `:ThemeSelect` to open the theme selector popup. You can:
+After installing, use `:Themer` to open the theme selector popup. You can:
 - Search themes by typing
 - Use arrow keys to navigate
 - Press Enter to select a theme
 - Press Esc to cancel
 
 The selected theme will be saved and loaded next time you start Neovim.
+
+If you want to open the theme selector in lua, use 
+```lua
+require('themer').select_theme()
+```
 
 ## Configuration
 
