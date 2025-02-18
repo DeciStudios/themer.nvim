@@ -37,6 +37,19 @@ use {
 }
 ```
 
+### Vim-Plug
+```vim
+Plug 'DeciStudios/themer.nvim'
+lua << EOF
+require('themer').setup({
+    themes = {
+        { name = "Gruvbox", colorscheme = "gruvbox" },
+        { name = "Tokyo Night", colorscheme = "tokyonight" },
+    }
+})
+EOF
+```
+
 ## Usage
 
 After installing, use `:Themer` to open the theme selector popup. You can:
@@ -47,7 +60,7 @@ After installing, use `:Themer` to open the theme selector popup. You can:
 
 The selected theme will be saved and loaded next time you start Neovim.
 
-If you want to open the theme selector in lua, use 
+If you want to open the theme selector in lua, use
 ```lua
 require('themer').select_theme()
 ```
