@@ -178,7 +178,7 @@ function M.select_theme()
         -- Add checkmarks and highlights
         for i, theme in ipairs(current_items) do
             -- Add checkmark for saved theme
-            if theme.colorscheme == saved_theme then
+            if theme.id == saved_theme or theme.colorscheme == saved_theme then
                 api.nvim_buf_add_highlight(buf, ns_id, 'DiagnosticOk', i - 1, 0, 3)
                 api.nvim_buf_set_text(buf, i - 1, 0, i - 1, 1, { config.checkmark })
             end
