@@ -42,21 +42,22 @@ end
 -- Apply theme
 local function apply_theme(theme, is_preview)
     -- Set colorscheme with error handling
+    -- local colorscheme_id = theme.id or theme.colorscheme
     local ok = pcall(vim.cmd, "colorscheme " .. theme.colorscheme)
     if not ok then return end
-
+    local colorscheme_id = theme.id or theme.colorscheme
     -- Execute additional command if provided
-    if theme.command then
-        if type(theme.command) == "string" then
-            pcall(vim.cmd, theme.command)
-        elseif type(theme.command) == "function" then
-            pcall(theme.command)
+    if theme.setup then
+        if type(theme.setup) == "string" then
+            pcall(vim.cmd, theme.setup)
+        elseif type(theme.setup) == "function" then
+            pcall(theme.setup)
         end
     end
 
     -- Only save and update lualine for final selection, not preview
     if not is_preview then
-        save_theme(theme.colorscheme)
+        save_theme(colorscheme_id)
     end
 end
 
@@ -255,10 +256,7 @@ function M.select_theme()
     end, { buffer = search_buf, noremap = true, silent = true })
 
     vim.keymap.set('i', '<Esc>', function()
-        local colorscheme = load_saved_theme()
-        if type(colorscheme) == "string" then
-            apply_theme({ colorscheme = colorscheme }, false)
-        end
+        M.apply_saved_theme()
         pcall(api.nvim_win_close, win, true)
         pcall(api.nvim_win_close, search_win, true)
         pcall(api.nvim_buf_delete, buf, { force = true })
@@ -296,10 +294,14 @@ end
 function M.setup(opts)
     config = vim.tbl_deep_extend("force", config, opts or {})
     -- Load saved theme on startup
+    M.apply_saved_theme()
+end
+
+function M.apply_saved_theme()
     local saved_theme = load_saved_theme()
     if saved_theme then
         for _, theme in ipairs(config.themes) do
-            if theme.colorscheme == saved_theme then
+            if theme.id == saved_theme or theme.colorscheme == saved_theme then
                 apply_theme(theme, false)
                 break
             end
