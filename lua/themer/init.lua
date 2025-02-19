@@ -45,21 +45,21 @@ local function apply_theme(theme, is_preview)
     local ok = pcall(vim.cmd, "colorscheme " .. theme.colorscheme)
     if not ok then return end
 
+    -- Execute additional command if provided
+    if theme.command then
+        if type(theme.command) == "string" then
+            pcall(vim.cmd, theme.command)
+        elseif type(theme.command) == "function" then
+            pcall(theme.command)
+        end
+    end
+
     -- Only save and update lualine for final selection, not preview
     if not is_preview then
         save_theme(theme.colorscheme)
-
-        -- Update lualine
-        -- local status_ok, lualine = pcall(require, "lualine")
-        -- if status_ok then
-        --     lualine.setup({
-        --         options = {
-        --             theme = theme.colorscheme
-        --         }
-        --     })
-        -- end
     end
 end
+
 
 -- Fuzzy match function
 local function fuzzy_match(str, pattern)
